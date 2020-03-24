@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+
+class Programs
+{
+
+    static void task_1()
+    {
+        Console.Write("ВВедите кол-во квадратов: ");
+        // int NUM_OF_SQUARES = Console.Read();
+        int NUM_OF_SQUARES = Convert.ToInt32(Console.ReadLine());
+
+
+        Random r = new Random();
+        Quadrant[] arr = new Quadrant[NUM_OF_SQUARES];
+
+
+        for (int i = 0; i < NUM_OF_SQUARES; i++)
+            arr[i] = new Quadrant(r.Next(5, 15));
+
+
+
+        int minSizeSqr = arr[0].SizeSide;
+        for (int i = 1; i < NUM_OF_SQUARES; i++)
+        {
+            if (minSizeSqr > arr[i].SizeSide)
+            {
+                minSizeSqr = arr[i].SizeSide;
+            }
+        }
+
+
+        for (int i = 0; i < NUM_OF_SQUARES; i++)
+        {
+            Console.WriteLine("КВадрат " + (i + 1) + ": " + arr[i].SizeSide);
+        }
+
+        Console.WriteLine("КВадрат с минимальной площадью: " + minSizeSqr * minSizeSqr);
+
+    }
+
+
+
+    static void Main(/*string[] args*/)// 5 9 13 17 21
+    {
+        task_1();
+    }
+}
+
+class Quadrant
+{
+
+
+    int sizeSide;
+    public Quadrant()
+    {
+
+    }
+    public Quadrant(int sideLength)
+    {
+        sizeSide = sideLength;
+    }
+
+    public int SizeSide { get => sizeSide; set => sizeSide = value; }
+
+    public double getDiagonal()
+    {
+        return SizeSide * Math.Sqrt(2);
+    }
+
+    public double getPerimeter()
+    {
+        return SizeSide * 4;
+    }
+    public double getArea()
+    {
+        return SizeSide * SizeSide;
+    }
+
+
+}
+
