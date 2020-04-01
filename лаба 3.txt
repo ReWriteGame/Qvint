@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <stdio.h>
+#include <cctype>
+
+using namespace std;
+
+bool checkSymbolInStr(const string &str)// Проверка есть ли символы в str (true - есть : false - нет)
+{
+	for (const auto &symbol : str)
+		if (!isalpha(symbol))// isalpha (1 - буква : 0 - символ)
+			return true;
+
+	return false;
+}
+
+void task4_1()
+{
+	string str;
+	
+	do
+	{
+		cout << "Введите строку : ";
+		getline(cin, str);
+	} while (checkSymbolInStr(str));
+			
+	for (int i = 0; i < str.size(); i++)
+		if (str[i] >= 'a' && str[i] <= 'z' && i != 0)str[i - 1] = ' ';
+
+	cout << str << endl;
+}
+
+void task4_2()
+{
+	string str;
+	cout << "Введите строку: ";
+	getline(cin, str);
+	
+
+	for (int i = 0; i < str.size() / 2; i++)
+		if (str[i] == ':')str[i] = '.';
+			
+		
+	for (int i = str.size() / 2; i < str.size(); i++)
+		if (str[i] == '!')str[i] = '.';
+
+	cout << str << endl;
+}
+
+
+void task4_3()
+{
+	string str;
+	cout << "Введите строку: ";
+	getline(cin, str);
+
+	str.resize(11);// ставим размер в 11 символов
+	unsigned long long int number = 1;
+
+
+	for (int i = 0; i < str.size(); i++)
+		if ((int)str[i] > '0' && (int)str[i] < '9')
+			number *= (str[i] - '0');
+
+	cout << "Произведиене цифер строки = " << number << endl;
+}
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	srand(time(NULL));
+
+
+	int forSwitch;
+	cout << "Выберете задание 1-3: ";
+	cin >> forSwitch;
+
+
+
+	switch (forSwitch)
+	{
+	case 1:
+		task4_1();
+		break;
+	case 2:
+		task4_2();
+		break;
+	case 3:
+		task4_3();
+		break;
+	default:
+		cout << "Задание на найденно." << endl;
+		break;
+	}
+
+
+	system("pause");
+	return 0;
+}
+
