@@ -1,0 +1,344 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <fstream>
+#include <windows.h>
+
+
+using namespace std;
+
+
+struct Data
+{
+	unsigned int day;
+	unsigned int month;
+	unsigned int year;
+};
+struct Buyer
+{
+	string name;
+	string surname;
+	string patronymic;
+	string nationality;
+	string country;
+	string region;
+	string city;
+	string street;
+	string sex;
+
+
+	int home;
+	int flat;
+	int height;
+	int weight;
+	int phonNum;
+	int index;
+	int creditCardNumber;
+	int bankAccountNumber;
+
+	Data birthday;
+
+	void show()
+	{
+		cout << "F: " << name << endl;
+		cout << "I: " << surname<< endl;
+		cout << "O: " << patronymic << endl;
+		cout << "nationality: " << nationality<< endl;
+		cout << "country " << country << endl;
+		cout << "region " << region;
+		cout << "city " << city<< endl;
+		cout << "street " << street<< endl;
+		cout << "sex " << sex << endl;
+
+		cout << "home " << home << endl;
+		cout << "flat " << flat << endl;
+		cout << "height " << height << endl;
+		cout << "weight " << weight << endl;
+		cout << "phonNum " << phonNum << endl;
+		cout << "index " << index << endl;
+		cout << "creditCardNumber " << creditCardNumber << endl;
+		cout << "bankAccountNumber " << bankAccountNumber << endl;
+		cout << "day " << birthday.day << endl;
+		cout << "month " << birthday.month << endl;
+		cout << "year " << birthday.year << endl;
+		cout << endl;
+	}
+};
+
+
+void task_1()
+{
+	string path = "lll1.txt";
+
+	unsigned const int SIZE_ARR = 10;
+	Buyer *buyer = new Buyer[SIZE_ARR];
+	
+
+	ofstream fout(path);// ЗАпись в файла стирает данные/создает файл по дефолту
+
+	for (int i = 0; i < SIZE_ARR; i++)
+	{
+			buyer[i].name ="azazaza";
+			buyer[i].surname = "azazaza";
+			buyer[i].patronymic = "azazaza";
+			buyer[i].nationality = "azazaza";
+			buyer[i].country = "aaaaa";
+			buyer[i].region =  "xxxx";
+			buyer[i].city = "gggg";
+			buyer[i].street = "fdfd";
+			buyer[i].sex = "m";
+
+			buyer[i].home = rand() % 100;
+			buyer[i].flat = rand() % 100;
+			buyer[i].height = rand() % 100;
+			buyer[i].weight = rand() % 100;
+			buyer[i].phonNum = rand() % 100;
+			buyer[i].index = rand() % 100;
+			buyer[i].creditCardNumber = rand() % 100;
+			buyer[i].bankAccountNumber = rand() % 100;
+
+			buyer[i].birthday.day = rand() % 30 + 1;
+			buyer[i].birthday.month = rand() % 12 + 1;
+			buyer[i].birthday.year = rand() % 100 + 2000;
+	}
+
+	for (int i = 0; i < SIZE_ARR; i++)// запись
+		fout.write((char*)&buyer[i], sizeof(Buyer));// запись 1 объекта в файл
+	
+	fout.close();
+
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		buyer[i].show();
+
+	///////////////// стираем данные 
+	delete[]  buyer;
+	buyer = new Buyer[SIZE_ARR];
+
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		buyer[i].show();
+	////////////////////
+
+
+	ifstream  fin(path);// Чтение из файла
+
+	for (int i = 0; i < SIZE_ARR; i++)// считываем
+		fin.read((char*)&buyer[i], sizeof(Buyer));
+
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		buyer[i].show();
+
+	fin.close();
+}
+void task_2()
+{
+	string path = "ds.txt";
+	fstream fs;
+
+	fs.open(path, ios_base::in | ios_base::out | ios_base::trunc);// trunc - перезаписывает если файла нет создат 
+	unsigned const int SIZE_ARR = 10;
+	int  *num1 = new int[SIZE_ARR];
+
+
+	for (int i = 0; i < SIZE_ARR; i++)
+		cout << (num1[i] = rand() % 50) << endl;
+
+
+	for (int i = 0; i < SIZE_ARR; i++)// запись 
+		fs << num1[i] << "\n";
+
+
+	fs.seekg(0, ios_base::beg);// курсор в начало
+
+
+	int min, max, temp;
+	for (fs >> temp, max = min = temp; !fs.eof(); fs >> temp)// чтение
+	{
+		if (temp < min)min = temp;
+		if (temp > max)max = temp;
+	}
+
+	cout << endl << endl;
+	cout << "max: " << max << endl;
+	cout << "min: " << min << endl;
+	cout << "summ: " << min + max << endl;
+
+
+	fs.close();
+}
+void task_3()
+{
+	string path_1 = "azaza1.txt";
+	fstream fs_1;
+	fs_1.open(path_1, ios_base::in | ios_base::out | ios_base::trunc);// trunc - перезаписывает, 404 - cоздаст
+
+	string path_2 = "azaza2.txt";
+	fstream fs_2;
+	fs_2.open(path_2, ios_base::in | ios_base::out | ios_base::trunc);// trunc - перезаписывает, 404 - cоздаст
+	
+
+	unsigned const int sizeX = 10;
+	unsigned const int sizeY = 5;
+	unsigned const int size = 4;
+
+	int arr_1[size][sizeY][sizeX];// z y x
+	int arr_2[size][sizeY][sizeX];// z y x
+
+	for (int s = 0; s < size; s++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int x = 0; x < sizeX; x++)
+			{
+				fs_1 << rand() % 10;
+				fs_2 << rand() % 10;
+			}
+			fs_1 << endl;
+			fs_2 << endl;
+		}
+		fs_1 << endl;
+		fs_2 << endl;
+	}
+	
+	fs_1.seekg(0, ios_base::beg);// курсор в начало
+	fs_2.seekg(0, ios_base::beg);// курсор в начало
+
+
+	char simb;
+	for (int s = 0; s < size; s++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int x = 0; x < sizeX; x++)
+			{
+				fs_1.get(simb);
+				arr_1[s][y][x] = int(simb - '0');
+
+				fs_2.get(simb);
+				arr_2[s][y][x] = int(simb - '0');
+			}
+			fs_1.get(simb);
+			fs_2.get(simb);
+		}
+		fs_1.get(simb);
+		fs_2.get(simb);
+	}
+
+	fs_1.seekg(0, ios_base::beg);// курсор в начало
+	fs_2.seekg(0, ios_base::beg);// курсор в начало
+	
+
+	cout << "arr 1: ///////////////////////////////////////" << endl;
+	while (!fs_1.eof())
+	{
+		fs_1.get(simb);
+		cout << simb;
+	}
+
+	cout << "arr 2: ///////////////////////////////////////" << endl;
+	while (!fs_2.eof())
+	{
+		fs_2.get(simb);
+		cout << simb;
+	}
+
+	fs_1.close();
+	fs_1.open(path_1, ios_base::in);
+	fs_2.close();
+	fs_2.open(path_2, ios_base::in);
+
+	for (int s = 0; s < size; s++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int x = 0; x < sizeX; x++)
+			{
+				fs_1.get(simb);
+				arr_1[s][y][x] = simb - '0';
+
+				fs_2.get(simb);
+				arr_2[s][y][x] = simb - '0';
+			}
+			fs_1.get(simb);
+			fs_2.get(simb);
+		}
+		fs_1.get(simb);
+		fs_2.get(simb);
+	}
+
+	fs_2.close();
+	fs_2.open(path_2,ios_base::app);
+
+
+	bool t = false;
+	for (int s = 0; s < size; s++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int x = 0; x < sizeX; x++)
+			{
+				if (arr_1[s][y][x] != arr_2[s][y][x] && !t)
+				{
+					t = true;
+					x = y = 0;
+				}
+				if (t)
+				{
+					fs_2 << arr_1[s][y][x];
+				}
+							
+						
+			}
+			fs_2 << endl;
+		}
+		fs_2 << endl;
+	}
+
+	for (int s = 0; s < size; s++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int x = 0; x < sizeX; x++)
+			{
+				cout << arr_1[s][y][x];
+			}
+			cout << endl;
+		}
+		cout << endl;
+
+	}
+
+	fs_1.close();
+	fs_2.close();
+}
+void main()
+{
+	setlocale(LC_ALL, "Rus");
+	srand(time(NULL));
+
+
+	int num;
+	cout << "введите задание 1-3:";
+	cin >> num;
+	switch (num)
+	{
+	case 1:
+		task_1();
+		break;
+	case 2:
+		task_2();
+		break;
+	case 3:
+		task_3();
+		break;
+	default:
+		cout << "404 not found";
+		break;
+	}
+
+
+	system("pause");
+}
+
+
+
+
