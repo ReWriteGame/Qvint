@@ -84,7 +84,7 @@ void task_1()
 			buyer[i].nationality = "azazaza";
 			buyer[i].country = "aaaaa";
 			buyer[i].region =  "xxxx";
-			buyer[i].city = "gggg";
+			buyer[i].city = "odessa";
 			buyer[i].street = "fdfd";
 			buyer[i].sex = "m";
 
@@ -125,8 +125,13 @@ void task_1()
 		fin.read((char*)&buyer[i], sizeof(Buyer));
 
 	for (int i = 0; i < SIZE_ARR; i++)// вывод
+	{
+	if(buyer[i].city == "odessa")
+	{
 		buyer[i].show();
+		}
 
+}
 	fin.close();
 }
 void task_2()
