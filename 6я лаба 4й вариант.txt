@@ -1,0 +1,298 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <fstream>
+#include <windows.h>
+
+
+using namespace std;
+
+struct Data
+{
+	unsigned int day;
+	unsigned int month;
+	unsigned int year;
+};
+struct Buyer
+{
+	string name;
+	string surname;
+	string patronymic;
+	string nationality;
+	string country;
+	string region;
+	string city;
+	string street;
+	string sex;
+
+
+	int home;
+	int flat;
+	int height;
+	int weight;
+	int phonNum;
+	int index;
+	int creditCardNumber;
+	int salary;
+
+	Data birthday;
+
+	void show()
+	{
+		cout << "F: " << name << endl;
+		cout << "I: " << surname << endl;
+		cout << "O: " << patronymic << endl;
+		cout << "nationality: " << nationality << endl;
+		cout << "country " << country << endl;
+		cout << "region " << region;
+		cout << "city " << city << endl;
+		cout << "street " << street << endl;
+		cout << "sex " << sex << endl;
+
+		cout << "home " << home << endl;
+		cout << "flat " << flat << endl;
+		cout << "height " << height << endl;
+		cout << "weight " << weight << endl;
+		cout << "phonNum " << phonNum << endl;
+		cout << "index " << index << endl;
+		cout << "creditCardNumber " << creditCardNumber << endl;
+		cout << "salary " << salary << endl;
+		cout << "day " << birthday.day << endl;
+		cout << "month " << birthday.month << endl;
+		cout << "year " << birthday.year << endl;
+		cout << endl;
+	}
+};
+
+struct Student
+{
+	string numOfGrup;
+	unsigned int assessments[3];
+	unsigned int scholarship;
+
+	void printInfo()
+	{
+		cout << numOfGrup << endl;
+		cout << assessments[0] << endl;
+		cout << assessments[1] << endl;
+		cout << assessments[2] << endl;
+		cout << scholarship << endl << endl;
+	}
+};
+void task_1()
+{
+	string path = "bin1.b";
+	fstream fs(path, ios::binary);// ЗАпись в файла стирает данные/создает файл по дефолту
+
+	if (!fs)// файл не открыт
+	{
+		ofstream temp(path, ios::binary);
+		temp.close();
+		
+		cout << "файл создан" << endl;
+	}
+	else cout << " открыт" << endl;
+
+	fs.open(path, ios::out);// запись
+
+
+	unsigned const int SIZE_ARR = 3;
+	Buyer *buyer = new Buyer[SIZE_ARR];
+
+	
+
+	for (int i = 0; i < SIZE_ARR; i++)
+	{
+		buyer[i].name = "azazaza";
+		buyer[i].surname = "azazaza";
+		buyer[i].patronymic = "azazaza";
+		buyer[i].nationality = "azazaza";
+		buyer[i].country = "aaaaa";
+		buyer[i].region = "xxxx";
+		buyer[i].city = "odessa";
+		buyer[i].street = "fdfd";
+		buyer[i].sex = "m";
+
+		buyer[i].home = rand() % 100;
+		buyer[i].flat = rand() % 100;
+		buyer[i].height = rand() % 100;
+		buyer[i].weight = rand() % 100;
+		buyer[i].phonNum = rand() % 100;
+		buyer[i].index = rand() % 100;
+		buyer[i].creditCardNumber = rand() % 100;
+		buyer[i].salary = rand() % 100;
+
+		buyer[i].birthday.day = rand() % 30 + 1;
+		buyer[i].birthday.month = rand() % 12 + 1;
+		buyer[i].birthday.year = rand() % 100 + 2000;
+	}
+
+
+
+	for (int i = 0; i < SIZE_ARR; i++)// запись
+		fs.write((char*)&buyer[i], sizeof(Buyer));// запись 1 объекта в файл
+
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		buyer[i].show();
+
+
+
+	///////////////// стираем данные 
+	cout << "очистили массив !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+	delete[]  buyer;
+	buyer = new Buyer[SIZE_ARR];
+
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		buyer[i].show();
+	////////////////////
+
+
+	// переоткрываем
+	fs.close();// курсор в начало
+	fs.open(path, ios::in);
+	
+
+
+	for (int i = 0; i < SIZE_ARR; i++)// считываем
+		fs.read((char*)&buyer[i], sizeof(Buyer));
+
+
+
+	double sredAref = 0;
+	for (int i = 0; i < SIZE_ARR; i++)// вывод
+		sredAref += buyer[i].salary;
+
+
+	cout << "Зарплата сред: " << int(sredAref / SIZE_ARR) << endl;
+	fs.close();
+}
+void task_2()
+{
+	string path = "f2.txt";
+	fstream fs;
+
+	string path1 = "fsssssssssssss.txt";
+	ofstream out;
+
+	char с;
+	string str;
+	cout << "ВВедите строку:" << endl;
+	cin >> str;
+
+	out.open(path1, ios::out);
+
+	if (!fs)// файл не открыт
+	{
+		ofstream temp(path, ios::binary);
+		temp.close();
+
+		cout << "файл создан" << endl;
+	}
+	else cout << "файл открыт " << endl;
+
+
+	fs.open(path, ios::out | ios::binary);// запись
+	for (int i = 0; i < str.length(); i++)
+		fs.write((char*)&str[i], sizeof(char));
+
+
+	fs.close();
+	fs.open(path, ios::in | ios::binary);// чтение
+
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		fs.read((char*)&с, sizeof(char));
+		out << с;//запись в другой файл
+	}
+
+
+	fs.close();
+}
+void task_3()
+{
+	string path = "azaza1.txt";
+	fstream fs;
+	fs.open(path, ios_base::in | ios_base::out | ios_base::trunc);// trunc - перезаписывает, 404 - cоздаст
+
+
+	const int SIZE_ARR = 5;
+	Student arr[SIZE_ARR];
+
+	for (int i = 0; i < SIZE_ARR; i++)
+	{
+		arr[i].numOfGrup = "ATO-ПOTOK";
+		arr[i].scholarship = rand() % 1000;
+
+		arr[i].assessments[0] = rand() % 5;
+		arr[i].assessments[1] = rand() % 5;
+		arr[i].assessments[2] = rand() % 5;
+	}
+
+
+	for (int i = 0; i < SIZE_ARR; i++)// запись
+		fs.write((char*)&arr[i], sizeof(Student));// запись 1 объекта в файл
+
+
+	for (int i = 0; i < SIZE_ARR; i++)
+	{
+		arr[i].numOfGrup = "";
+		arr[i].scholarship = 0;
+
+		arr[i].assessments[0] = 0;
+		arr[i].assessments[1] = 0;
+		arr[i].assessments[2] = 0;
+	}
+
+
+	// переоткрываем
+	fs.close();// курсор в начало
+	fs.open(path, ios::in);
+
+
+
+	for (int i = 0; i < SIZE_ARR; i++)// считываем
+	{
+		fs.read((char*)&arr[i], sizeof(Student));
+
+		if (arr[i].assessments[0] == 5 && arr[i].assessments[1] == 5 && arr[i].assessments[2] == 5)
+			arr[i].scholarship *= 2;
+	}
+	fs.open(path,  ios_base::out | ios_base::trunc);
+			
+
+	for (int i = 0; i < SIZE_ARR; i++)// запись
+		fs.write((char*)&arr[i], sizeof(Student));// запись 1 объекта в файл
+
+	for (int i = 0; i < SIZE_ARR; i++)
+		arr[i].printInfo();
+
+
+	fs.close();
+}
+
+void main()
+{
+int a;
+cout << "Выбери задание 1-3:";
+cin >> a;
+
+switch(a)
+{
+case 1:
+break;
+case 2:
+break;
+case 3:
+break;
+default:
+cout << "404 not found"<< end;
+break;
+}
+
+
+
+
+
+system("pause");
+}
